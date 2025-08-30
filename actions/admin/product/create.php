@@ -17,5 +17,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     Product::create($imageName);
     move_uploaded_file($tmp, $dir.$imageName);
 
-    redirect("/admin/product");
+    redirect("/admin/product", "success", "Produk berhasil dibuat");
 }

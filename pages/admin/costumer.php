@@ -41,8 +41,8 @@ $no = 1;
                                 <?php endif; ?>
                             </div>
 
-                            <a href="<?= redirectTo("/admin/form/costumer-create") ?>" class="bg-blue-600 py-1 px-3 text-white rounded-lg duration-100 ease-in-out hover:scale-101 active:scale-99">Tambah <i
-                                    class="fa-solid fa-plus"></i></a>
+                            <button onclick="openCreate()" class="bg-blue-600 py-1 px-3 text-white rounded-lg duration-100 ease-in-out hover:scale-101 active:scale-99">Tambah <i
+                                    class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="w-full border-t-3 border-violet-500 rounded-t-xl overflow-hidden">
                             <table class="w-full">
@@ -68,10 +68,10 @@ $no = 1;
                                             <td class="p-1"><?= $costumer["email"] ?></td>
                                             <td class="p-1"><?= $costumer["gender"] ?></td>
                                             <td class="p-1"><?= $costumer["created_at"] ?></td>
-                                            <td class="p-1">1</td>
-                                            <td class="p-1">1</td>
+                                            <td class="p-1"><?= $costumer["total_order"] ?? 0 ?></td>
+                                            <td class="p-1">Rp. <?= number_format($costumer["total_payment"] ?? 0, 0, ",", ".") ?></td>
                                             <td class="p-1 flex justify-center gap-2">
-                                                <a href="<?= redirectTo("/admin/form/costumer-update") ?>&id=<?= $costumer["id"] ?>" class="text-white bg-green-500 p-2 rounded-lg hover:scale-101 hover:bg-green-600 duration-100 ease-in-out active:scale-99"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <button onclick="openUpdate({id:'<?= $costumer['id'] ?>', name:'<?= $costumer['name'] ?>', email:'<?= $costumer['email'] ?>', gender:'<?= $costumer['gender'] ?>'})" class="text-white bg-green-500 p-2 rounded-lg hover:scale-101 hover:bg-green-600 duration-100 ease-in-out active:scale-99"><i class="fa-solid fa-pen-to-square"></i></button>
                                                 <a href="<?= action("/admin/costumer/delete") ?>?id=<?= $costumer['id'] ?>" class="text-white bg-red-500 p-2 rounded-lg hover:scale-101 hover:bg-red-600 duration-100 ease-in-out active:scale-99"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -102,7 +102,112 @@ $no = 1;
                 </div>
             </div>
 
+            <div id="formCreate" class="hidden z-2 fixed inset-0 bg-gray-300/25 backdrop-blur-xs">
+                <div class="w-full h-screen flex justify-center items-center">
+                    <div class="w-2/5 bg-white border border-gray-300 shadow-xl p-4 rounded-xl relative">
+                        <button onclick="closeCreate()" class="absolute -right-3 -top-3 text-3xl text-gray-600 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
+                        <p class="text-center font-medium text-2xl mb-6 mt-4">Masukan Pembeli Baru</p>
+                        <form action="<?= action("/admin/costumer/create") ?>" method="POST" enctype="multipart/form-data">
+                            <div class="flex flex-col gap-1 my-6">
+                                <label for="name">Nama Pembeli</label>
+                                <input type="text" name="name" id="name" placeholder="Masukan nama"
+                                    class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400">
+                            </div>
+                            <div class="flex flex-col gap-1 my-6">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" placeholder="Masukan email"
+                                    class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400">
+                            </div>
+                            <div class="flex flex-col gap-1 my-6">
+                                <label>Jenis kelamin</label>
+                                <div class="flex gap-2">
+                                    <input type="radio" name="gender" id="Laki-laki" value="Laki-laki">
+                                    <label for="Laki-laki">Laki-laki</label>
+                                    <input type="radio" name="gender" id="Perempuan" value="Perempuan">
+                                    <label for="Perempuan">Perempuan</label>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1 my-4">
+                                <button class="bg-green-500 py-1 w-full text-white rounded-lg">Simpan <i class="fa-solid fa-floppy-disk"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="formUpdate" class="hidden z-2 fixed inset-0 bg-gray-300/25 backdrop-blur-xs">
+                <div class="w-full h-screen flex justify-center items-center">
+                    <div class="w-2/5 bg-white border border-gray-300 shadow-xl p-4 rounded-xl relative">
+                        <button onclick="closeUpdate()" class="absolute -right-3 -top-3 text-3xl text-gray-600 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
+                        <p class="text-center font-medium text-2xl mb-6 mt-4">Edit Data Pembeli</p>
+                        <form action="<?= action("/admin/costumer/update") ?>" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" id="idUpdate" name="id">
+                            <div class="flex flex-col gap-1 my-6">
+                                <label for="nameUpdate">Nama Pembeli</label>
+                                <input type="text" name="name" id="nameUpdate" placeholder="Masukan nama"
+                                    class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400">
+                            </div>
+                            <div class="flex flex-col gap-1 my-6">
+                                <label for="emailUpdate">Email</label>
+                                <input type="email" name="email" id="emailUpdate" placeholder="Masukan email"
+                                    class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400">
+                            </div>
+                            <div class="flex flex-col gap-1 my-6">
+                                <label>Jenis kelamin</label>
+                                <div class="flex gap-2">
+                                    <input type="radio" name="gender" id="Laki-lakiUpdate" value="Laki-laki">
+                                    <label for="Laki-laki">Laki-laki</label>
+                                    <input type="radio" name="gender" id="PerempuanUpdate" value="Perempuan">
+                                    <label for="Perempuan">Perempuan</label>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1 my-4">
+                                <button class="bg-green-500 py-1 w-full text-white rounded-lg">Simpan <i class="fa-solid fa-floppy-disk"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
     </div>
 </div>
+
+<script>
+    let formCreate = document.getElementById("formCreate")
+    let formUpdate = document.getElementById("formUpdate")
+    let idUpdate = document.getElementById("idUpdate")
+    let nameUpdate = document.getElementById("nameUpdate")
+    let emailUpdate = document.getElementById("emailUpdate")
+    let LakilakiUpdate = document.getElementById("Laki-lakiUpdate")
+    let PerempuanUpdate = document.getElementById("PerempuanUpdate")
+
+    function openCreate() {
+        formCreate.classList.remove("hidden")
+    }
+
+    function closeCreate() {
+        formCreate.classList.add("hidden")
+    }
+
+    function openUpdate(data = {}) {
+        formUpdate.classList.remove("hidden")
+        idUpdate.value = data.id
+        nameUpdate.value = data.name
+        emailUpdate.value = data.email
+
+        LakilakiUpdate.checked = false
+        PerempuanUpdate.checked = false
+        
+        if(data.gender == "Laki-laki") {
+            LakilakiUpdate.checked = true
+        } else if (data.gender == "Perempuan") {
+            PerempuanUpdate.checked = true
+        }
+    }
+
+    function closeUpdate() {
+        formUpdate.classList.add("hidden")
+    }
+</script>

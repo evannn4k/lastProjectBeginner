@@ -1,11 +1,149 @@
+<?php
+require "system/query/admin/seller.php";
+if (empty($_POST["search"])) {
+    $admins = Seller::findAll();
+} else {
+    $admins = Seller::search();
+}
+
+$no = 1;
+?>
 <div class="flex h-screen">
     <?php include("layout/sidebar.php") ?>
     <div class="flex-1 overflow-y-auto flex flex-col">
         <?php include("layout/header.php") ?>
 
-        <main class="bg-gray-200 flex-1">
-            daftar penjual
+        <main class="bg-gray-200 flex-1 flex justify-center">
+            <div class="p-4 flex flex-col w-1/2 gap-4">
+                <div class="p-4 bg-white rounded-lg">
+                    <p class="text-lg font-semibold">Daftar penjual</p>
+                </div>
+
+                <div class="p-4 bg-white rounded-lg flex gap-4">
+                    <div class="flex-1 flex flex-col gap-4 w-1/2">
+                        <div class="border-b border-gray-400 pb-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <form action="" method="POST" class="relative">
+                                    <input type="text" name="search"
+                                        class="border border-gray-400 rounded-md text-sm py-1 px-2 w-74 focus:outline-violet-600"
+                                        placeholder="Cari kategori" value="<?= (!empty($_POST["search"])) ? $_POST["search"] : "" ?>">
+                                    <button type="submit"
+                                        class="h-full px-2 absolute -translate-x-9 text-gray-400 hover:text-gray-600"><i
+                                            class="fa-solid fa-magnifying-glass"></i></button>
+                                </form>
+                                <?php
+                                if (!empty($_POST["search"])) :
+                                ?>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="search" value="">
+                                        <button type="submit" class="text-2xl text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
+                                    </form>
+                                <?php endif; ?>
+                            </div>
+
+                            <button onclick="openCreate()" class="bg-blue-600 py-1 px-3 text-white rounded-lg duration-100 ease-in-out hover:scale-101 active:scale-99">Tambah <i
+                                    class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div class="w-full border-t-3 border-violet-500 rounded-t-xl overflow-hidden">
+                            <table class="w-full">
+                                <thead class="bg-gradient-to-t from-violet-500 to-violet-300 text-white">
+                                    <tr>
+                                        <th class="p-1 w-12 text-center border-e border-gray-400">No</th>
+                                        <th class="p-1">Email Penjual</th>
+                                        <th class="p-1">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($admins as $admin) {
+                                    ?>
+                                        <tr class="border-b border-gray-300 text-sm hover:bg-gray-100">
+                                            <td class="p-1 text-center border-e border-gray-400"><?= $no++ ?></td>
+                                            <td class="p-1"><?= $admin["email"] ?></td>
+                                            <td class="p-1 flex justify-center gap-2">
+                                                <button onclick="openUpdate({id : <?= $admin['id'] ?>, email : '<?= $admin['email'] ?>'})" class="text-white bg-green-500 p-2 rounded-lg hover:scale-101 hover:bg-green-600 duration-100 ease-in-out active:scale-99"><i class="fa-solid fa-pen-to-square"></i></button>
+                                                <a href="<?= action("/admin/seller/delete") ?>?id=<?= $admin['id'] ?>" class="text-white bg-red-500 p-2 rounded-lg hover:scale-101 hover:bg-red-600 duration-100 ease-in-out active:scale-99"><i class="fa-solid fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="formCreate" class="hidden z-2 fixed inset-0 bg-gray-300/25 backdrop-blur-xs">
+                <div class="w-full h-full flex items-center justify-center">
+                    <div class="w-1/5 bg-white shadow-xl border border-gray-300 px-4 py-8 rounded-xl flex flex-col gap-8 relative">
+                        <button onclick="closeCreate()" class="absolute -right-3 -top-3 text-3xl text-gray-600 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
+                        <p class="text-center font-semibold text-xl">Tambah Penjual</p>
+                        <form action="<?= action("/admin/seller/create") ?>" method="POST" class="flex flex-col gap-4">
+                            <div class="flex flex-col gap-2">
+                                <label for="email" class="text-sm">Email</label>
+                                <input type="email" name="email" id="email" class="border border-gray-300 focus:outline focus:outline-gray-400 w-full py-1 px-2 rounded-lg text-sm" placeholder="Masukan email">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label for="password" class="text-sm">Password</label>
+                                <input type="text" name="password" id="password" class="border border-gray-300 focus:outline focus:outline-gray-400 w-full py-1 px-2 rounded-lg text-sm" placeholder="Masukan password">
+                            </div>
+                            <div class="w-full flex justify-center">
+                                <button class="w-1/2 py-1 rounded-lg bg-green-500 text-white">Simpan <i class="fa-solid fa-floppy-disk"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="formUpdate" class="hidden z-2 fixed inset-0 bg-gray-300/25 backdrop-blur-xs">
+                <div class="w-full h-full flex items-center justify-center">
+                    <div class="w-1/5 bg-white shadow-xl border border-gray-300 px-4 py-8 rounded-xl flex flex-col gap-8 relative">
+                        <button onclick="closeUpdate()" class="absolute -right-3 -top-3 text-3xl text-gray-600 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
+                        <p class="text-center font-semibold text-xl">Ubah Kategori</p>
+                        <form action="<?= action("/admin/seller/update") ?>" method="POST" class="flex flex-col gap-4">
+                            <input type="hidden" name="id" id="idUpdate">
+                            <div class="flex flex-col gap-2">
+                                <label for="emailUpdate" class="text-sm">Email</label>
+                                <input type="email" name="email" id="emailUpdate" class="border border-gray-300 focus:outline focus:outline-gray-400 w-full py-1 px-2 rounded-lg text-sm" placeholder="Masukan email">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label for="password" class="text-sm">Password</label>
+                                <input type="text" name="password" id="password" class="border border-gray-300 focus:outline focus:outline-gray-400 w-full py-1 px-2 rounded-lg text-sm" placeholder="Tidak diubah">
+                            </div>
+                            <div class="w-full flex justify-center">
+                                <button class="w-1/2 py-1 rounded-lg bg-green-500 text-white">Simpan <i class="fa-solid fa-floppy-disk"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
     </div>
 </div>
+
+<script>
+    let formCreate = document.getElementById("formCreate")
+    let formUpdate = document.getElementById("formUpdate")
+    let idUpdate = document.getElementById("idUpdate")
+    let emailUpdate = document.getElementById("emailUpdate")
+
+    function openCreate() {
+        formCreate.classList.remove("hidden")
+    }
+
+    function closeCreate() {
+        formCreate.classList.add("hidden")
+    }
+
+    function openUpdate(data = {}) {
+        formUpdate.classList.remove("hidden")
+        idUpdate.value = data.id
+        emailUpdate.value = data.email
+    }
+
+    function closeUpdate() {
+        formUpdate.classList.add("hidden")
+    }
+</script>

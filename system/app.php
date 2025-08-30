@@ -1,4 +1,5 @@
 <?php
+// https://docs.google.com/presentation/d/1mPjvpyr4jWFqNNshUdbhkqTgDv3BsUVI/edit?slide=id.p1#slide=id.p1
 session_start();
 require __DIR__ . "/config.php";
 
@@ -27,8 +28,12 @@ function redirectTo($path) {
     return $url;    
 }
 
-function redirect($path)
+function redirect($path, $key = null, $message = null)
 {
+    if($key && $message) {
+        $_SESSION[$key] = $message;
+    }
+
     $url = url("/index.php?view=" . $path);
     header("Location:$url");
 }
@@ -70,7 +75,6 @@ function connection()
         $database = new PDO("mysql:host={$hostname};dbname={$dbname}", $username, $password);
 
         define("DB", $database);
-        
     } catch (\Exception $e) {
         die("Error" . $e->getMessage());
     }

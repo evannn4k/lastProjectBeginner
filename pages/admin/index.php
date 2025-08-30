@@ -40,7 +40,7 @@ require "system/query/admin/category.php";
                                     <p class="text-base text-white">Jumlah Produk</p>
                                     <p class="text-2xl text-white">27 Produk</p>
                                 </div>
-                                <a href="" class="text-sm text-white">Lihat selengkapnya <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                                <a href="<?= redirectTo("/admin/product") ?>" class="text-sm text-white">Lihat selengkapnya <i class="fa-solid fa-arrow-right text-xs"></i></a>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,6 @@ require "system/query/admin/category.php";
                             </div>
                         </div>
                     </div>
-                    
 
                 </div>
             </div>

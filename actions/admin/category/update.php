@@ -5,5 +5,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     useQuery("admin/category");
 
     Category::update();
-    redirect("/admin/category");
+    redirect("/admin/category", "success", "Berhasil mengedit kategori!");
 }

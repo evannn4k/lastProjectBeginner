@@ -58,7 +58,7 @@ $no = 1;
                                         <button onclick="openDetail({id:'<?= $product['id'] ?>', name:'<?= $product['name'] ?>', price:<?= $product['price'] ?>, stock:<?= $product['stock'] ?>, image:'<?= $product['image'] ?>'})" class="cursor-pointer bg-white flex-1 flex flex-col overflow-hidden hover:scale-101 duration-100 ease-in-out">
                                             <img src="<?= storage("/images/") . $product['image'] ?>" alt="" class="w-full h-3/4 object-cover">
                                             <div class="py-1 text-left h-1/4">
-                                                <p class="text-sm font-light"><?= (strlen($product["name"]) > 24) ? substr($product["name"], 0, 24) . " ..." : $product["name"] ?></p>
+                                                <p class="text-sm font-light"><?= (strlen($product["name"]) > 18) ? substr($product["name"], 0, 18) . " ..." : $product["name"] ?></p>
                                                 <p class="text-lg font-semibold">Rp. <?= number_format($product["price"], 0, ",", ".") ?></p>
                                                 <p class="text-sm font-medium text-gray-500">Stock <?= $product["stock"] ?></p>
                                             </div>
@@ -99,21 +99,21 @@ $no = 1;
                         <button onclick="closeCreate()" class="absolute -right-3 -top-3 text-3xl text-gray-600 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
                         <p class="text-center font-medium text-2xl mb-6 mt-4">Masukan Produk Baru</p>
                         <form action="<?= action("/admin/product/create") ?>" method="POST" enctype="multipart/form-data">
-                            <div class="flex flex-col gap-1 my-4">
+                            <div class="flex flex-col gap-1 my-6">
                                 <label for="name">Nama Produk</label>
                                 <input type="text" name="name" id="name" class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="Masukan nama produk">
                             </div>
                             <div class="flex w-full gap-4">
-                                <div class="flex flex-col gap-1 my-4 flex-1">
+                                <div class="flex flex-col gap-1 flex-1">
                                     <label for="price">Harga</label>
                                     <input type="number" name="price" id="price" class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="Masukan harga produk">
                                 </div>
-                                <div class="flex flex-col gap-1 my-4">
+                                <div class="flex flex-col gap-1">
                                     <label for="stock">Stok</label>
                                     <input type="number" name="stock" id="stock" class="w-24 border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="0">
                                 </div>
                             </div>
-                            <div class="flex flex-col gap-1 my-4">
+                            <div class="flex flex-col gap-1 my-6">
                                 <label for="category">Kategori</label>
                                 <select name="category_id" id="category" class="w-full border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400">
                                     <option value="" disabled selected>Pilih kategori</option>
@@ -124,7 +124,7 @@ $no = 1;
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="flex flex-col gap-1 my-4">
+                            <div class="flex flex-col gap-1 my-6">
                                 <label for="image">Gambar</label>
                                 <input type="file" name="image" id="image" class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="Masukan nama produk">
                             </div>
@@ -142,21 +142,21 @@ $no = 1;
                         <button onclick="closeUpdate()" class="absolute -right-3 -top-3 text-3xl text-gray-600 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
                         <p class="text-center font-medium text-2xl mb-6 mt-4">Update Product</p>
                         <form id="actionUpdate" method="POST" enctype="multipart/form-data">
-                            <div class="flex flex-col gap-1 my-4">
+                            <div class="flex flex-col gap-1 my-6">
                                 <label for="nameUpdate">Nama Produk</label>
                                 <input type="text" name="name" id="nameUpdate" class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="Masukan nama produk">
                             </div>
                             <div class="flex w-full gap-4">
-                                <div class="flex flex-col gap-1 my-4 flex-1">
+                                <div class="flex flex-col gap-1 flex-1">
                                     <label for="priceUpdate">Harga</label>
                                     <input type="number" name="price" id="priceUpdate" class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="Masukan harga produk">
                                 </div>
-                                <div class="flex flex-col gap-1 my-4">
+                                <div class="flex flex-col gap-1">
                                     <label for="stockUpdate">Stok</label>
                                     <input type="number" name="stock" id="stockUpdate" class="w-24 border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="0">
                                 </div>
                             </div>
-                            <div class="flex flex-col gap-1 my-4">
+                            <div class="flex flex-col gap-1 my-6">
                                 <label for="categoryUpdate">Kategori</label>
                                 <select name="category_id" id="categoryUpdate" class="w-full border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400">
                                     <option value="" disabled selected>Tidak diubah</option>
@@ -167,11 +167,11 @@ $no = 1;
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="flex flex-col gap-1 my-4">
+                            <div class="flex flex-col gap-1 my-6">
                                 <label for="image">Gambar</label>
                                 <input type="file" name="image" id="image" class="border border-gray-300 py-1 px-2 rounded-lg focus:outline-gray-400" placeholder="Masukan nama produk">
                             </div>
-                            <div class="flex flex-col gap-1 my-4">
+                            <div class="flex flex-col gap-1 my-6">
                                 <button class="bg-green-500 py-1 w-full text-white rounded-lg">Simpan <i class="fa-solid fa-floppy-disk"></i></button>
                             </div>
                         </form>
@@ -212,6 +212,7 @@ $no = 1;
 
     function openDetail(product = {}) {
         detail.classList.remove("hidden")
+
         detailName.innerHTML = product.name
         detailPrice.innerHTML = "Rp. " + product.price.toLocaleString("id-ID");;
         detailStock.value = product.stock

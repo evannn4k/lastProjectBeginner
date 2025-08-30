@@ -9,4 +9,4 @@ $image = $product["image"];
 unlink(storage_path("/images/{$image}"));
 
 Product::delete();
-redirect("/admin/product");
+redirect("/admin/product", "success", "Berhasil menghapus data produk!");

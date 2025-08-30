@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $category_id = (isset($_POST["category_id"])) ? $_POST["category_id"] : $product["category_id"];
 
-    if (empty($_FILES["image"])) {
+    if (isset($_FILES["image"]) && $_FILES["image"]["error"] === 0) {
         $imageNameDefault = $product["image"];
 
         unlink(storage_path("/images/{$imageNameDefault}"));
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $fileName = $file["name"];
         $extention = pathinfo($fileName, PATHINFO_EXTENSION);
-        $imageName = $product["id"] + 1 . "." . $extention;
+        $imageName = $product["id"] . "." . $extention;
 
         $tmp = $file["tmp_name"];
         $dir = storage_path("/images/");
@@ -25,11 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($tmp, $dir . $imageName);
 
         Product::update($_GET["id"], $category_id, $imageName);
+
     } else {
         $imageName = $product["image"];
 
         Product::update($_GET["id"], $category_id, $imageName);
     }
 
-    redirect("/admin/product");
+    redirect("/admin/product", "success", "Berhasil edit data produk!");
 }

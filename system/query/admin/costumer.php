@@ -24,7 +24,7 @@ class Costumer {
 
     public static function findAll()
     {
-        return DB->query("SELECT * FROM `costumers`");
+        return DB->query("SELECT c.id as id, c.name as name, c.email as email, c.gender as gender, c.created_at as created_at, SUM(o.total_payment) as total_payment, COUNT(o.id) as total_order FROM costumers c LEFT JOIN orders o ON o.costumer_id = c.id GROUP BY c.id, c.name, c.email, c.gender, c.created_at");
     }
 
     public static function search()
@@ -51,7 +51,7 @@ class Costumer {
     {
         $query = DB->prepare("UPDATE `costumers` SET name = :name, email = :email, gender = :gender WHERE id = :id");
         $query->execute([
-            "id" => $_GET["id"],
+            "id" => $_POST["id"],
             "name" => $_POST["name"],
             "email" => $_POST["email"],
             "gender" => $_POST["gender"],

@@ -5,5 +5,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     useQuery("admin/costumer");
     
     Costumer::create();
-    redirect("/admin/costumer");
+    redirect("/admin/costumer", "success", "Berhasil menambah data pembeli!");
 }

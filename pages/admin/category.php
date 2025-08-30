@@ -13,8 +13,8 @@ $no = 1;
     <div class="flex-1 overflow-y-auto flex flex-col">
         <?php include("layout/header.php") ?>
 
-        <main class="bg-gray-200 flex-1">
-            <div class="p-4 flex flex-col gap-4">
+        <main class="bg-gray-200 flex-1 flex justify-center">
+            <div class="p-4 flex flex-col w-1/2 gap-4">
                 <div class="p-4 bg-white rounded-lg">
                     <p class="text-lg font-semibold">Kategori produk</p>
                 </div>
@@ -68,17 +68,6 @@ $no = 1;
                                     <?php } ?>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                    <div class="w-1/2">
-                        <div class="bg-gray-100 border border-gray-300 shadow-xl h-auto p-4 rounded-xl w-full flex flex-col gap-4">
-                            <div class="bg-white shadow-lg border border-gray-300 py-6 px-auto text-center rounded-lg">
-                                <i class="fa-solid fa-circle-user text-8xl"></i>
-                            </div>
-                            <p class="text-2xl font-light text-center">Data Pembeli</p>
-                            <div class="bg-white shadow-lg border border-gray-300 px-auto rounded-lg p-4">
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam error quisquam eos saepe illo facere reiciendis provident aspernatur. Ducimus minima ipsam et sapiente odio doloremque aliquid ad, aspernatur repellat reprehenderit.
-                            </div>
                         </div>
                     </div>
                 </div>

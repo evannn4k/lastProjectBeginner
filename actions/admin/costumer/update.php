@@ -5,5 +5,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     useQuery("admin/costumer");
 
     Costumer::update();
-    redirect("/admin/costumer");
+    redirect("/admin/costumer", "success", "Berhasil mengedit data pembeli!");
 }

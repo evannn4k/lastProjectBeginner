@@ -5,5 +5,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     useQuery("/admin/product");
 
     Product::restock($_GET["id"]);
-    redirect("/admin/product");
+    redirect("/admin/product", "success", "Berhasil restock!");
 }
