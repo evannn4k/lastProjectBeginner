@@ -38,14 +38,10 @@ require "system/query/admin/category.php";
                         <div class="bg-[url(<?= asset("/circle.png") ?>)] h-full bg-no-repeat bg-contain bg-right p-6">
                             <div class="h-full flex flex-col justify-between">
                                 <div class="">
-                                    <p class="text-base text-white">Produk Terjual Sebulan Terakhir</p>
+                                    <p class="text-base text-white">Produk Terjual Bulan Ini</p>
                                     <p class="text-2xl text-white"><?= Orders::order1Mounth()->fetch()["total"] ?></p>
                                 </div>
-<<<<<<< HEAD
-                                <a href="<?= redirectTo("/admin/product") ?>" class="text-sm text-white">Lihat selengkapnya <i class="fa-solid fa-arrow-right text-xs"></i></a>
-=======
                                 <a href="<?= redirectTo("/admin/history-order") ?>" class="text-sm text-white">Lihat selengkapnya <i class="fa-solid fa-arrow-right text-xs"></i></a>
->>>>>>> 8e2f315 (Third commit)
                             </div>
                         </div>
                     </div>
@@ -54,7 +50,7 @@ require "system/query/admin/category.php";
                         <div class="bg-[url(<?= asset("/circle.png") ?>)] h-full bg-no-repeat bg-contain bg-right p-6">
                             <div class="h-full flex flex-col justify-between">
                                 <div class="">
-                                    <p class="text-base text-white">Total Pendapatan Sebulkan Terakhir</p>
+                                    <p class="text-base text-white">Total Pendapatan Bulan Ini</p>
                                     <p class="text-2xl text-white">Rp. <?= number_format(Orders::totalPayment1Mounth()->fetch()["total_payment"], 0, ",", ".") ?></p>
                                 </div>
                                 <a href="<?= redirectTo("/admin/history-order") ?>" class="text-sm text-white duration-100 ease-in-out hover:scale-101 active:scale-99">Lihat selengkapnya <i class="fa-solid fa-arrow-right text-xs"></i></a>
