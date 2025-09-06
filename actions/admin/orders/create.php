@@ -1,4 +1,5 @@
 <?php
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require "../../../system/action.php";
     useQuery("/admin/seller");
@@ -16,11 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $overQty = true;
         }
     }
-
+    
     if ($overQty == false) {
         $total_payment = 0;
         $total_product = count($products);
-
+        
         foreach ($products as $product) {
             $productDetail =  Product::findById($product["product_id"])->fetch();
             $total_price = $productDetail["price"] * $product["quantity"];
@@ -32,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $lastId = DB->lastInsertId();
 
         $prepare = OrderProduct::prepareCreate();
+
 
         foreach ($products as $product) {
             $productDetail =  Product::findById($product["product_id"])->fetch();

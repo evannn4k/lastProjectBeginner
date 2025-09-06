@@ -53,6 +53,74 @@ $orders = Orders::findAll();
                 </div>
             </div>
 
+            <div class="m-4 bg-white p-4 rounded-xl flex gap-4">
+
+                <div class="flex-1 flex flex-col gap-4">
+                    <p class="text-2xl font-semibold">Riwayat Penjualan</p>
+                    <div class="w-full border-t-3 border-violet-500 rounded-t-xl overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-gradient-to-t from-violet-500 to-violet-300 text-white">
+                                <tr>
+                                    <th class="p-1 w-12 text-center border-e border-gray-400">No</th>
+                                    <th class="p-1">Nama</th>
+                                    <th class="p-1">Admin</th>
+                                    <th class="p-1">Total pengeluaran</th>
+                                    <th class="p-1">Total jenis produk</th>
+                                    <th class="p-1">Tanggal</th>
+                                    <th class="p-1">Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($orders as $order) {
+                                ?>
+                                    <tr class="border-b border-gray-300 text-sm hover:bg-gray-100">
+                                        <td class="p-1 text-center border-e border-gray-400"><?= $no++ ?></td>
+                                        <td class="p-1"><?= $order["name"] ?></td>
+                                        <td class="p-1"><?= $order["admin_email"] ?></td>
+                                        <td class="p-1">Rp. <?= number_format($order["total_payment"], 0, ",", ".") ?></td>
+                                        <td class="p-1"><?= $order["total_product"] ?> jenis produk</td>
+                                        <td class="p-1"><?= $order["created_at"] ?></td>
+                                        <td class="p-1 flex justify-center gap-1">
+                                            <a href="<?= redirectTo("/admin/history-order") ?>&strukId=<?= $order["id"] ?>" onclick="openDetail(event)" class="bg-cyan-400 text-white py-1 px-4 rounded-full duration-150 ease-in-out hover:scale-103 hover:bg-cyan-500 active:scale-99">Struk </a>
+                                            <a href="<?= redirectTo("/admin/history-order") ?>&detailId=<?= $order["id"] ?>" onclick="openDetail(event)" class="bg-yellow-400 text-white py-1 px-4 rounded-full duration-150 ease-in-out hover:scale-103 hover:bg-yellow-500 active:scale-99">Detail </a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="w-1/4">
+                    <div class="bg-gray-100 border border-gray-300 shadow-xl h-auto p-4 rounded-xl w-full flex flex-col gap-4">
+                        <div class="bg-white shadow-lg border border-gray-300 py-6 px-auto text-center rounded-lg">
+                            <i class="fa-solid fa-hand-holding-dollar text-8xl"></i>
+                        </div>
+                        <p class="text-2xl font-light text-center">Riwayat penjualan</p>
+                        <div class="bg-white shadow-lg border border-gray-300 px-auto rounded-lg p-4">
+                            <div class="flex flex-col gap-2">
+                                <p class="">Produk terjual :</p>
+                                <p class="text-xl"><label class="font-semibold"><?= OrderProduct::totalProductSold()->fetch()["total_product_sold"] ?></label> produk terjual</p>
+                            </div>
+                            <hr class="my-4 text-gray-300">
+                            <div class="flex flex-col gap-2">
+                                <p class="">Total penjualan :</p>
+                                <p class="text-xl"><label class="font-semibold"><?= Orders::totalOrder()->fetch()["total_order"] ?></label>pPenjualan</p>
+                            </div>
+                            <hr class="my-4 text-gray-300">
+                            <div class="flex flex-col gap-2">
+                                <p class="">Total pendapatan :</p>
+                                <p class="text-xl">Rp. <?= number_format(Orders::totalPayment()->fetch()["total_payment"], 0, ",", ".") ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <?php
             if (isset($_GET["strukId"])) :
             ?>
@@ -69,6 +137,7 @@ $orders = Orders::findAll();
                                 <p class="text-center">No pesanan : <?= $orderDetail["id"] ?></p>
                                 <br>
                                 <p>-----------------------------</p>
+                                <hr class="w-full border-t border-dashed border-gray-500 my-2" />
                                 <table class="w-full text-xs">
                                     <tr class="py-2 border-b border-gray-300">
                                         <td class="text-center px-1">Jml</td>
@@ -91,6 +160,7 @@ $orders = Orders::findAll();
                                     ?>
                                 </table>
                                 <p>-----------------------------</p>
+                                <hr class="w-full border-t border-dashed border-gray-500 my-2" />
                                 <div class="w-full flex justify-between">
                                     <p class="text-xs">Total :</p>
                                     <p class="text-xs">Rp. <?= number_format($orderDetail["total_payment"], 0, ",", ".") ?></p>
@@ -102,6 +172,7 @@ $orders = Orders::findAll();
             <?php
             endif;
             ?>
+
             <?php
             if (isset($_GET["detailId"])) :
             ?>
@@ -128,6 +199,7 @@ $orders = Orders::findAll();
                                     <td class="flex flex-1 gap-1">:
                                         <table class="flex-1">
                                             <tr class="bg-gray-100 p-2 border-b border-gray-300">
+                                            <tr class="bg-violet-100 p-2 border-b border-gray-300">
                                                 <td class="px-1 w-100">Nama produk</td>
                                                 <td class="px-1">Jumlah</td>
                                                 <td class="px-1">Total harga</td>

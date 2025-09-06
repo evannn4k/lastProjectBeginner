@@ -93,7 +93,7 @@ $no = 1;
                 </div>
             </div>
 
-            <div id="formCreate" class="hidden z-2 fixed inset-0 bg-gray-300/25 backdrop-blur-xs">
+            <div id="formCreate" class="duration-150 ease-in-out hidden z-2 fixed inset-0 bg-gray-300/25 backdrop-blur-xs">
                 <div class="w-full h-screen flex justify-center items-center">
                     <div class="w-2/5 bg-white border border-gray-300 shadow-xl p-4 rounded-xl relative">
                         <button onclick="closeCreate()" class="absolute -right-3 -top-3 text-3xl text-gray-600 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>

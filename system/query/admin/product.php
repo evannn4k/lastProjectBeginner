@@ -2,6 +2,7 @@
 
 class Product
 {
+
     public static function stock()
     {
         return DB->query("SELECT * FROM `products` WHERE stock > 0");

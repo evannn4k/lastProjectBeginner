@@ -2,6 +2,11 @@
 
 class OrderProduct
 {
+    public static function totalProductSold() 
+    {
+        return DB->query("SELECT SUM(quantity) as total_product_sold FROM `order_products`");
+    }
+
     public static function findById($id) {
         $query = DB->prepare("SELECT os.id, c.name, os.created_at, op.quantity, p.name as product, op.total_price, os.total_payment, op.quantity FROM `orders` os JOIN order_products op ON op.order_id = os.id JOIN costumers c ON c.id = os.costumer_id JOIN products p ON p.id = op.product_id WHERE os.id = :id");
         $query->execute(["id" => $id]);

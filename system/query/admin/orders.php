@@ -2,6 +2,26 @@
 
 class Orders
 {
+    public static function totalPayment()
+    {
+        return DB->query("SELECT SUM(total_payment) as total_payment FROM `orders`");
+    }
+
+    public static function totalOrder()
+    {
+        return DB->query("SELECT COUNT(id) as total_order FROM `orders`");
+    }
+
+    public static function order1Mounth()
+    {
+        return DB->query("SELECT COUNT(id) as total FROM `orders` WHERE created_at > LAST_DAY(NOW() - INTERVAL 1 MONTH)");
+    }
+
+    public static function totalPayment1Mounth()
+    {
+        return DB->query("SELECT SUM(total_payment) as total_payment FROM `orders` WHERE created_at > LAST_DAY(NOW() - INTERVAL 1 MONTH)");
+    }
+
     public static function findAll()
     {
         return DB->query("SELECT
